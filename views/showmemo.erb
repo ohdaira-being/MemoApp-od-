@@ -1,0 +1,12 @@
+<form action="/memos" method="get">
+  <a href="/memos">メモ一覧に戻る</a><br>
+</form>
+<form action="/memos/<%= $path %>/editmemo" method="get">
+  <p>見出し：<input type="text" value="<%= @show_head %>" readonly></p>
+  <p>本文：<textarea name="newcomment" readonly><%= @show_comment %></textarea></p>
+  <a href="/memos/<%= $path %>/editmemo"><button>変更</button></a>
+</form>
+<form action="/memos/<%= $path %>" method="post" name="<%= $path %>">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="削除">
+</form>
