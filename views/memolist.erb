@@ -1,12 +1,8 @@
-<form action="/memos/newmemo" method="get">
-  <a href="/memos/newmemo"><button>追加</button></a>
-</form>
-<form action="memos/<%= $path %>" method="get">
-  <ul>
-    <% @hash.each do |key,value| %>
-    <li>
-      <a href="/memos/<%= key %>"><%= value["headdata"] %></a>
-    </li>
-    <% end %>
-  </ul>
-</form>
+<ul>
+  <% @hash.each do |key,value| %>
+  <li>
+    <a href="/memos/<%= key %>"><%= h(value["headdata"]) %></a>
+  </li>
+  <% end %>
+</ul>
+<a href="/memos/newmemo"><button>追加</button></a>

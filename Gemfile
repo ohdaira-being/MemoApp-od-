@@ -3,7 +3,6 @@
 source 'https://rubygems.org'
 
 gem 'rack-contrib'
-gem 'redcarpet'
 gem 'sinatra'
 gem 'sinatra-contrib'
 

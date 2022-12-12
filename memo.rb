@@ -11,29 +11,27 @@ helpers do
   end
 
   # データの保存
-  def savedata(id, newhead, newcomment)
-    @hash = File.open('memodata.json', 'r') { |f| JSON.load(f) }
+  def save_data(id, newhead, newcomment)
+    @hash = JSON.parse(File.read('memodata.json'))
     @hash[id] = { 'headdata' => newhead, 'commentdata' => newcomment }
     File.open('memodata.json', 'w') { |f| JSON.dump(@hash, f) }
   end
 
   # memosのデータの呼び出し
-  def loaddata(data)
-    File.open('memodata.json') do |f|
-      JSON.load(f)[$path][data]
-    end
+  def load_data(data)
+    JSON.parse(File.read('memodata.json'))["#{@path}"]["#{data}"]
   end
 
   # memoの削除
-  def deletedata(deleteid)
-    @delete_memos = File.open('memodata.json') { |f| JSON.load(f) }
+  def delete_data(deleteid)
+    @delete_memos = JSON.parse(File.read('memodata.json'))
     @delete_memos.delete("#{deleteid}")
     File.open('memodata.json', 'w') { |f| JSON.dump(@delete_memos, f) }
   end
 end
 
 get '/memos' do
-  @hash = File.open('memodata.json') { |f| JSON.load(f) }
+  @hash = JSON.parse(File.read('memodata.json'))
   erb :memolist
 end
 
@@ -43,36 +41,39 @@ end
 
 post '/memos' do
   id = SecureRandom.random_number(10_000)
-  newhead = h(params[:newhead])
-  newcomment = h(params[:newcomment])
-  savedata(id, newhead, newcomment)
+  newhead = params[:newhead]
+  newcomment = params[:newcomment]
+  save_data(id, newhead, newcomment)
   erb :memolist
 end
 
 get '/memos/:id' do
-  $path = params[:id]
-  @show_head = loaddata('headdata')
-  @show_comment = loaddata('commentdata')
+  @path = params[:id]
+  @show_head = load_data('headdata')
+  @show_comment = load_data('commentdata')
   erb :showmemo
 end
 
 delete '/memos/:id' do
-  deletedata($path)
+  @path = params[:id]
+  delete_data(@path)
   redirect to('/memos')
   erb :memolist
 end
 
 get '/memos/:id/editmemo' do
-  @show_head = loaddata('headdata')
-  @show_comment = loaddata('commentdata')
+  @path = params[:id]
+  @show_head = load_data('headdata')
+  @show_comment = load_data('commentdata')
   erb :editmemo
 end
 
 patch '/memos/:id' do
-  newhead = h(params[:edithead])
-  newcomment = h(params[:editcomment])
-  savedata($path, newhead, newcomment)
-  @show_head = loaddata('headdata')
-  @show_comment = loaddata('commentdata')
+  @path = params[:id]
+  newhead = params[:edithead]
+  newcomment = params[:editcomment]
+  save_data(@path, newhead, newcomment)
+  @show_head = load_data('headdata')
+  @show_comment = load_data('commentdata')
   erb :showmemo
 end
