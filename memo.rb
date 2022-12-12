@@ -11,9 +11,9 @@ helpers do
   end
 
   # データの保存
-  def save_data(id, newhead, newcomment)
+  def save_data(id, new_head, new_comment)
     @hash = JSON.parse(File.read('memodata.json'))
-    @hash[id] = { 'headdata' => newhead, 'commentdata' => newcomment }
+    @hash[id] = { 'headdata' => new_head, 'commentdata' => new_comment }
     File.open('memodata.json', 'w') { |f| JSON.dump(@hash, f) }
   end
 
@@ -41,9 +41,9 @@ end
 
 post '/memos' do
   id = SecureRandom.random_number(10_000)
-  newhead = params[:newhead]
-  newcomment = params[:newcomment]
-  save_data(id, newhead, newcomment)
+  new_head = params[:new_head]
+  new_comment = params[:new_comment]
+  save_data(id, new_head, new_comment)
   erb :memolist
 end
 
@@ -70,9 +70,9 @@ end
 
 patch '/memos/:id' do
   @path = params[:id]
-  newhead = params[:edithead]
-  newcomment = params[:editcomment]
-  save_data(@path, newhead, newcomment)
+  new_head = params[:edithead]
+  new_comment = params[:editcomment]
+  save_data(@path, new_head, new_comment)
   @show_head = load_data('headdata')
   @show_comment = load_data('commentdata')
   erb :showmemo
