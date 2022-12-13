@@ -13,20 +13,20 @@ helpers do
   # データの保存
   def save_data(id, new_head, new_comment)
     @hash = JSON.parse(File.read('memodata.json'))
-    @hash[id] = { 'headdata' => new_head, 'commentdata' => new_comment }
+    @hash[id] = { 'head_data' => new_head, 'comment_data' => new_comment }
     File.open('memodata.json', 'w') { |f| JSON.dump(@hash, f) }
   end
 
   # memosのデータの呼び出し
-  def load_data(data)
-    JSON.parse(File.read('memodata.json'))["#{@path}"]["#{data}"]
+  def load_data(id)
+    JSON.parse(File.read('memodata.json'))["#{id}"]
   end
 
   # memoの削除
-  def delete_data(deleteid)
-    @delete_memos = JSON.parse(File.read('memodata.json'))
-    @delete_memos.delete("#{deleteid}")
-    File.open('memodata.json', 'w') { |f| JSON.dump(@delete_memos, f) }
+  def delete_data(delete_id)
+    @delete_memo = JSON.parse(File.read('memodata.json'))
+    @delete_memo.delete("#{delete_id}")
+    File.open('memodata.json', 'w') { |f| JSON.dump(@delete_memo, f) }
   end
 end
 
@@ -40,7 +40,7 @@ get '/memos/newmemo' do
 end
 
 post '/memos' do
-  id = SecureRandom.random_number(10_000)
+  id = SecureRandom.uuid
   new_head = params[:new_head]
   new_comment = params[:new_comment]
   save_data(id, new_head, new_comment)
@@ -49,8 +49,7 @@ end
 
 get '/memos/:id' do
   @path = params[:id]
-  @show_head = load_data('headdata')
-  @show_comment = load_data('commentdata')
+  @memo = load_data(@path)
   erb :showmemo
 end
 
@@ -63,8 +62,7 @@ end
 
 get '/memos/:id/editmemo' do
   @path = params[:id]
-  @show_head = load_data('headdata')
-  @show_comment = load_data('commentdata')
+  @memo = load_data(@path)
   erb :editmemo
 end
 
@@ -73,7 +71,6 @@ patch '/memos/:id' do
   new_head = params[:edithead]
   new_comment = params[:editcomment]
   save_data(@path, new_head, new_comment)
-  @show_head = load_data('headdata')
-  @show_comment = load_data('commentdata')
+  @memo = load_data(@path)
   erb :showmemo
 end

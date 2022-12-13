@@ -1,7 +1,7 @@
 <ul>
   <% @hash.each do |key,value| %>
   <li>
-    <a href="/memos/<%= key %>"><%= h(value["headdata"]) %></a>
+    <a href="/memos/<%= key %>"><%= h(value["head_data"]) %></a>
   </li>
   <% end %>
 </ul>

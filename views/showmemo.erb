@@ -1,7 +1,7 @@
 <p>【見出し】</p>
-<p><%= h(@show_head) %></p>
+<p><%= h(@memo["head_data"]) %></p>
 <p>【本文】</p>
-<p><%= h(@show_comment) %></p>
+<p><%= h(@memo["comment_data"]) %></p>
 <a href="/memos/<%= @path %>/editmemo"><button>変更</button></a>
 <form action="/memos/<%= @path %>" method="post" name="<%= @path %>">
   <input type="hidden" name="_method" value="delete">

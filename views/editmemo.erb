@@ -1,7 +1,7 @@
 <form action="/memos/<%= @path %>" method="post" name="<%= @path %>">
   <input type="hidden" name="_method" value="patch">
-  <p>見出し：<input type="text" name="edithead" value="<%= h(@show_head) %>"></p>
-  <p>本文：<textarea name="editcomment" rows="5"><%= h(@show_comment) %></textarea></p>
+  <p>見出し：<input type="text" name="edithead" value="<%= h(@memo["head_data"]) %>"></p>
+  <p>本文：<textarea name="editcomment" rows="5"><%= h(@memo["comment_data"]) %></textarea></p>
   <input type="submit" value="保存">
 </form>
 <a href="/memos">メモ一覧に戻る</a><br>
