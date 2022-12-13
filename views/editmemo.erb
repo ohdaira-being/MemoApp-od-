@@ -1,4 +1,4 @@
-<form action="/memos/<%= @path %>" method="post" name="<%= @path %>">
+<form action="/memos/<%= @key %>" method="post" name="<%= @key %>">
   <input type="hidden" name="_method" value="patch">
   <p>見出し：<input type="text" name="edithead" value="<%= h(@memo["head_data"]) %>"></p>
   <p>本文：<textarea name="editcomment" rows="5"><%= h(@memo["comment_data"]) %></textarea></p>

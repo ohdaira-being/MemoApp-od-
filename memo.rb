@@ -48,29 +48,29 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  @path = params[:id]
-  @memo = load_data(@path)
+  @key = params[:id]
+  @memo = load_data(@key)
   erb :showmemo
 end
 
 delete '/memos/:id' do
-  @path = params[:id]
-  delete_data(@path)
+  @key = params[:id]
+  delete_data(@key)
   redirect to('/memos')
   erb :memolist
 end
 
 get '/memos/:id/editmemo' do
-  @path = params[:id]
-  @memo = load_data(@path)
+  @key = params[:id]
+  @memo = load_data(@key)
   erb :editmemo
 end
 
 patch '/memos/:id' do
-  @path = params[:id]
+  @key = params[:id]
   new_head = params[:edithead]
   new_comment = params[:editcomment]
-  save_data(@path, new_head, new_comment)
-  @memo = load_data(@path)
+  save_data(@key, new_head, new_comment)
+  @memo = load_data(@key)
   erb :showmemo
 end
